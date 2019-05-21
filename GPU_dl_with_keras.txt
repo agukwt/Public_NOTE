@@ -1,0 +1,73 @@
+■Chapter 1
+
+keras_MINST_V1.py   :Base
+keras_MINST_V2.py   :隠れ層追加
+keras_MINST_V3.py   :ドロップアウト追加
+keras_MINST_V4.py   :最適化 RMSprop/adam
+
+【keras_MINST_Vx.py】
+・データセットのロード
+    sklearn.datasets.fetch_mldataより、
+    keras.datasets.mnist.load_dataの方が速い。
+
+・L1，L2のkerasでの差し込み
+    L1正則化は「不要なパラメータを削りたい」という時によく使われる。（次元・特徴量削減）
+    L2正則化は「過学習を抑えて汎用化したい」という時によく使われる。（01(在る無し)に偏らないから）
+
+    from keras import regularizers
+    model.add(Dense(64, input_dim=64,
+                    kernel_regularizer=regularizers.l2(0.01),
+                    activity_regularizer=regularizers.l1(0.01)))
+
+・”callbacks”の取り扱い
+    kerasのcallbacksには、NNの書き出しタイミングやEarlyStoppingの機能を呼べる。
+    参考<https://qiita.com/yukiB/items/f45f0f71bc9739830002>
+
+    earlystopping_cb = EarlyStopping(monitor='val_loss', patience=10, verbose=1)
+    tensorboard_cb = make_tensorboard(set_dir_name='keras_MINST')
+
+    model.fit(...callbacks=[earlystopping_cb, tensorboard_cb])
+
+・(loss, acc) × (train, validation)のプロット
+    fig, (axL, axR) = plt.subplots(ncols=2, figsize=(10, 4))
+    fig.patch.set_facecolor('white')
+    plt.rc('font', family='serif')
+
+    axL.plot(range(len(val_loss)), train_loss, marker='.', label='loss')
+    axL.plot(range(len(val_loss)), val_loss, marker='.', label='val_loss')
+    axL.legend(loc='best', fontsize=10)
+    axL.set_title('model loss')
+    axL.set_xlabel('epoch')
+    axL.set_ylabel('loss')
+    axL.grid()
+
+    axR.plot(range(len(val_loss)), train_acc, marker='.', label='acc')
+    axR.plot(range(len(val_loss)), val_acc, marker='.', label='val_acc')
+    axR.legend(loc='best', fontsize=10)
+    axR.set_title('model acc')
+    axR.set_xlabel('epoch')
+    axR.set_ylabel('acc')
+    axR.grid()
+
+    plt.show()
+
+■■■L1，L2のkerasでの差し込み成功？ 効果が出てないのはデータ依存か
+
+■Chapter 2
+    Chapter 3 の 準備
+
+■Chapter 3
+・可視化はtensorboardにやらせる
+    fit(...callbacks=[TensorBoard(log_dir=self.log_dir)],...)
+    学習後コンソールから以下を実行
+        tensorboard --logdir=LOGDIR_PATH
+
+・転移学習（Transfer learning）
+    重みデータを変更させずに、既存の学習済モデルを特徴量抽出機として利用する。
+    ※‥「転移適用」が用語としては正しい気がする...。
+    　　　最後の全結合層を学習しているのは、転移学習だけに限った話じゃない。
+
+・ファインチューニング（Fine-tuning）
+    重みデータを一部再学習させて、既存の学習済モデルを特徴量抽出機として利用する。
+
+

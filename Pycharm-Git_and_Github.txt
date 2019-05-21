@@ -1,0 +1,86 @@
+PycharmでのGitおよびGithubの活用
+
+■1, PycharmでのGit利用の準備
+1-1）Git入手
+    参考<https://www.procrasist.com/entry/2016/10/16/200000>
+
+    ※  Gitのユーザ名とメールアドレス設定のベストプラクティス
+        参考<https://laboradian.com/set-git-user-and-email/>
+
+1-2) Pycharmでの認識
+    "C:\Program Files\Git\cmd\git.exe"
+    参考<http://intellectual-curiosity.tokyo/2018/09/29/pycharm%E3%81%A7git%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/>
+
+
+■2, Pycharmの作業プロジェクトの初期設定
+2-1）ローカルリポジトリの作成
+    メニューバー -> VCS -> "Enable Version Control Integration..."
+    <http://intellectual-curiosity.tokyo/2018/09/29/pycharm%E3%81%A7git%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/>
+
+2-2）ignoreファイル設定の参考
+    参考<https://qiita.com/rubytomato@github/items/b2ca27712146ed6f1426>
+    参考<http://phiary.me/git-empty-directory-add/>
+
+    [.gitignore]
+    *                   # Ignore everything
+    !.gitignore         # Exclude gitignore
+    !/src/              # Exclude src directory
+    !/src/**            # Exclude file and directory in src   ※ src/.gitkeepを置く
+
+2-3）ローカルリポジトリへのファーストコミットの実施
+    コンソール
+    -> 9: Version Control -> Local Changes
+    -> commits(チェックマーク)選択
+    -> messageを記載し、"Commit"
+
+
+■3, Pycharmの作業プロジェクトのGit管理（gitコマンドの使い方）
+3-1）新しいブランチを作成し、作業する
+    9: Version Control -> Git console(Git master)
+    -> + New Branch -> ブランチ名を決め、作業開始
+
+3-1）ブランチ作業を完了(Commit)する
+    -> 9: Version Control -> Local Changes
+    -> commits(チェックマーク)選択
+    -> messageを記載し、"Commit"
+
+3-3）ブランチ作業をmasterに取り込む(Mergeする)
+    9: Version Control -> Git master に check Out し、Git masterを開く
+    -> Git console が取り込み先にバージョン(Git master)であることを確認
+    -> 取り込み元のバージョン(何らかのBranch)のプルダウンから、Merge into Current
+
+
+
+■4, PycharmでのGithub利用
+4-1) github の公開リポジトリの利用
+    参考<GitHubからダウンロードする方法>
+    １，GitHubのダウンロードしたいプロジェクトのトップページを開きます。
+    ２，画面右上にある Clone or dowload ボタン[1]をクリックします。
+    ３，"clone"クリックし、文字列をクリップボードにコピーします。
+    ４，gitを動かすためのコマンドプロンプトを開きます。
+    ５，git for windows の場合は、エキスプローラでダウンロードするフォルダーを開き、コンテキストメニューでGit Bash Hereを選択して下さい。
+    ６，コマンド・プロンプトで以下のコマンドを入力します。
+        git clone [3]の部分の文字列
+    ・ git for windowsのコマンド・プロンプトの場合、コンテキストメニューでペーストできます。
+    ・ 実行すると、レポジトリ名のフォルダーができ、その中にファイルがダウンロードされています。
+
+    ! Fatal Python error: Py_Initialize: can't initialize sys standard streams
+      LookupError: unknown encoding: windows-31j
+
+    対象方法：Setting|Editor|File EncodingからIDE EncodingとProject EncodingをUTF-8にする。
+            参考<http://romth.hatenablog.com/entry/2015/05/25/231134>
+
+4-2) github アカウント作成
+    略
+
+4-3) Pycharmでの作業プロジェクトをgithubリポジトリに連携する
+    4-3_1) ローカルリポジトリの作成
+        ■2 参照
+        ！ ただし、パスワード等の秘匿はinitial commit前に置換するか、
+           gitignore指定のファイル/ディレクトリに掃き出す必要がある
+           参考<https://qiita.com/dtan4/items/34e41e3bd40a43fd8cbf>
+
+    4-3_2) リモートリポジトリの作成
+        参考<https://shimi-dai.com/how-to-use-jetbrains-ide/>
+        メニューバーの「VCS」⇒「Share Project  on Github」
+
